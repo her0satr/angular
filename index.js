@@ -5,12 +5,46 @@ var bodyParser = require('body-parser');
 
 var app = express();
 
+var helper = {
+	page: function(req) {
+		var result = { no: 1, skip: 0, limit: 6 };
+		
+		// no
+		result.no = (req.no != null) ? req.no : result.no;
+		
+		// limit
+		result.limit = (req.limit != null) ? req.limit : result.limit;
+		
+		// skip
+		result.skip = (result.no - 1) * result.limit;
+		
+		return result;
+	}
+}
+
 app.use(express.static(__dirname + "/public"));
 app.use(bodyParser.json());
 
-app.get('/contact_list', function(req, res) {
-	db.contact.find(function(err, docs) {
-		res.json(docs);
+app.post('/contact_list', function(req, res) {
+	var table = {};
+	var page = helper.page(req.body);
+	
+	// get rows
+	db.contact.find({}).limit(page.limit).skip(page.skip, function(err, docs) {
+		table.rows = docs;
+		
+		// get page
+		db.contact.find({}).count(function(err, count) {
+			table.page = [];
+			var page_count = Math.ceil(count / page.limit);
+			for (var i = -5; i <= 5; i++) {
+				var counter = page.no + i;
+				if (0 < counter && counter <= page_count) {
+					table.page.push({ no: counter });
+				}
+			}
+			res.json(table);
+		});
 	});
 });
 

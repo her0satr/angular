@@ -35,9 +35,15 @@
 				</tr>
 			</tbody>
 		</table>
+		
+		<div class="text-center">
+			<ul class="pagination">
+				<li ng-repeat="page in pages" ng-class="page.no == page_no ? 'active' : ''"><a class="cursor" ng-click="reloadTable(page)">{{page.no}}</a></li>
+			</ul>
+		</div>
 	</div>
 	
 	<script src="/js/angular.js"></script>
-	<script src="/controllers/controllers.js"></script>
+	<script src="/controllers/index.js"></script>
 </body>
 </html>
