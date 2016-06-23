@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Contact List Apps</title>
+	<link rel="stylesheet" href="/css/bootstrap-3.3.6/dist/css/bootstrap.css" />
+</head>
+<body>
+	<div class="container" ng-app="myApp" ng-controller="AppCtrl">
+		<h3>Contact List</h3>
+		
+		<table class="table">
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>Email</th>
+					<th>Number</th>
+					<th>Action</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td><input class="form-control" ng-model="contact.name" /></td>
+					<td><input class="form-control" ng-model="contact.email" /></td>
+					<td><input class="form-control" ng-model="contact.number" /></td>
+					<td><button class="btn btn-primary" ng-click="addContact()">Save</button></td>
+				</tr>
+				<tr ng-repeat="contact in contact_list">
+					<td>{{contact.name}}</td>
+					<td>{{contact.email}}</td>
+					<td>{{contact.number}}</td>
+					<td>
+						<button class="btn btn-info" ng-click="updateContact(contact)">Update</button>
+						<button class="btn btn-danger" ng-click="removeContact(contact)">Remove</button>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	
+	<script src="/js/angular.js"></script>
+	<script src="/controllers/controllers.js"></script>
+</body>
+</html>
