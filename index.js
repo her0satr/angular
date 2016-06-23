@@ -2,25 +2,9 @@ var express = require('express');
 var mongojs = require('mongojs');
 var db = mongojs('contact', ['contact']);
 var bodyParser = require('body-parser');
+var helper = require('./js_helper');
 
 var app = express();
-
-var helper = {
-	page: function(req) {
-		var result = { no: 1, skip: 0, limit: 6 };
-		
-		// no
-		result.no = (req.no != null) ? req.no : result.no;
-		
-		// limit
-		result.limit = (req.limit != null) ? req.limit : result.limit;
-		
-		// skip
-		result.skip = (result.no - 1) * result.limit;
-		
-		return result;
-	}
-}
 
 app.use(express.static(__dirname + "/public"));
 app.use(bodyParser.json());
